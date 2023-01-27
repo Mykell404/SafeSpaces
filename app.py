@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request, redirect, url_for
+from werkzeug.security import generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
@@ -45,7 +45,33 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/signup', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return redirect(url_for('register'))
+
+        email_exist = User.query.filter_by(email=email).first()
+        if email_exist:
+            return redirect(url_for('register'))
+
+        password_hash = generate_password_hash(password)
+
+        new_user = User(username=username, email=email, password_hash=password_hash)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for('login'))
+
+    return render_template('signup.html')
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
-
-
