@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Safe Space</title>
+</head>
+<body class="container mx-auto bg-blue-400">
+    <div>
+        <nav class=" p-4 flex justify-between">
+            <h1 class="text-5xl font-bold font-serif">SafeSpace</h1>
+            <div class="p-4 text-xl">
+                <a href="" class="mx-2">Home</a>
+                <a href="" class="mx-2">Signup</a>
+                <a href="" class="mx-2">Login</a>
+            </div>
+        </nav>
+    </div>
+    <div>
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+</body>
+</html>
