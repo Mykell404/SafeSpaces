@@ -12,11 +12,20 @@
     <div>
         <nav class=" p-4 flex justify-between">
             <h1 class="text-5xl font-bold font-serif">SafeSpace</h1>
+
+            {% if current_user.is_authenticated %}
+            <div class="p-4 text-xl">
+                <a href="{{url_for('index')}}" class="mx-2">Home</a>
+                <a href="{{url_for('register')}}" class="mx-2">Create a Post</a>
+                <a href="{{url_for('logout')}}" class="mx-2">Logout</a>
+            </div>
+            {%else%}
             <div class="p-4 text-xl">
                 <a href="{{url_for('index')}}" class="mx-2">Home</a>
                 <a href="{{url_for('register')}}" class="mx-2">Signup</a>
-                <a href="" class="mx-2">Login</a>
+                <a href="{{url_for('login')}}" class="mx-2">Login</a>
             </div>
+            {% endif %}
         </nav>
     </div>
     <div>
