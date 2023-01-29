@@ -16,7 +16,7 @@
             {% if current_user.is_authenticated %}
             <div class="p-4 text-xl">
                 <a href="{{url_for('index')}}" class="mx-2">Home</a>
-                <a href="{{url_for('register')}}" class="mx-2">Create a Post</a>
+                <a href="{{url_for('create')}}" class="mx-2">Create a Post</a>
                 <a href="{{url_for('logout')}}" class="mx-2">Logout</a>
             </div>
             {%else%}

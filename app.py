@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_user, LoginManager, UserMixin, logout_user
+from flask_login import login_user, LoginManager, UserMixin, logout_user, login_required, current_user
 import os
 from datetime import datetime
 
@@ -39,7 +39,7 @@ class Post(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     post_title = db.Column(db.String(80), nullable=False)
     post = db.Column(db.String(), nullable=False)
-    created_by = db.Column(db.String(), db.ForeignKey('users.id'), nullable=False)
+    created_by = db.Column(db.Integer(), db.ForeignKey('users.id'))
     pub_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
@@ -48,8 +48,13 @@ class Post(db.Model):
 
 @app.route('/')
 def index():
+    posts = Post.query.all()
+
+    context = {
+        'posts': posts
+    }
     db.create_all()
-    return render_template('index.html')
+    return render_template('index.html', **context)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -84,6 +89,7 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
+
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password_hash, password):
@@ -98,7 +104,23 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# @app.route('create',)
+
+@app.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    if request.method == 'POST':
+        post_title = request.form.get('post-title')
+        post = request.form.get('post')
+        created_by = current_user.id
+
+        new_post = Post(post_title=post_title, post=post, created_by=created_by)
+
+        db.session.add(new_post)
+        db.session.commit()
+
+        return redirect(url_for('index'))
+
+    return render_template('create.html')
 
 
 if __name__ == "__main__":

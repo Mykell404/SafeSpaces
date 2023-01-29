@@ -2,5 +2,15 @@
 {% block content %}
 <div class="p-4">
     <h1>Welcome to SafeSpace, where you can share your thought without fear of being judged</h1>
+
+    {% for post in posts%}
+    <div class="border border-black my-4">
+        <h1 class="text-2xl m-2">{{post.post_title}}</h1>
+        <p class="m-2">{{post.post}}</p>
+
+    </div>
+    {% endfor %}
 </div>
+
+
 {% endblock content %}

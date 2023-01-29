@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-4">
+    Create a post
+
+    <form action="{{url_for('create')}}" class="mt-4" method="post">
+        <label for="post-title">Post Title</label>
+         <textarea class="w-full" name="post-title"  id="post-title">
+        </textarea>
+        <label class="mt-4">Post Body</label>
+        <textarea class="w-full h-64" name="post">
+        </textarea>
+
+        <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+    </form>
+</div>
+{% endblock content %}
